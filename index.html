@@ -7,18 +7,23 @@ window.onload = function(){
 }
 
 async function initLIFF(){
-  await liff.init({ liffId: "2009561233-W2o7PGug" })
+  try{
+    await liff.init({ liffId: "2009561233-W2o7PGug" })
 
-  if(!liff.isLoggedIn()){
-    liff.login()
-    return
-  }
+    if(!liff.isLoggedIn()){
+      liff.login()
+      return
+    }
 
-  const profile = await liff.getProfile()
+    const profile = await liff.getProfile()
 
-  const nameInput = document.getElementById("name")
-  if(nameInput){
-    nameInput.value = profile.displayName
+    const nameInput = document.getElementById("name")
+    if(nameInput){
+      nameInput.value = profile.displayName
+    }
+
+  }catch(e){
+    console.log("LIFF error:", e)
   }
 }
 
