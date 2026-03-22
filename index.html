@@ -71,10 +71,8 @@ button{
   <option>病假</option>
 </select>
 
-<input id="date" inputmode="numeric" placeholder="請假日期 (例: 2026/03/22)">
-
-<input id="time" inputmode="numeric" placeholder="請假時間 (例: 09:00-18:00)">
-
+<input id="date" placeholder="請假日期 (例: 2026/03/22 ~ 2026/03/25)">
+<input id="time" placeholder="請假時間 (例: 09:00 ~ 18:00)">
 <input id="hours" inputmode="decimal" placeholder="請假時數 (例: 8)">
 
 <button onclick="submitForm()">送出</button>
@@ -102,15 +100,15 @@ function validate(){
     return false;
   }
 
-  // 日期格式：2026/03/22
-  if(!/^\d{4}\/\d{2}\/\d{2}$/.test(date)){
-    alert("日期格式錯誤 (例: 2026/03/22)");
+  const datePattern = /^\d{4}\/\d{2}\/\d{2}( *~ *\d{4}\/\d{2}\/\d{2})?$/;
+  if(!datePattern.test(date)){
+    alert("日期格式錯誤 (例: 2026/03/22 或 2026/03/22 ~ 2026/03/25)");
     return false;
   }
 
-  // 時間格式：09:00-18:00
-  if(!/^\d{2}:\d{2}-\d{2}:\d{2}$/.test(time)){
-    alert("時間格式錯誤 (例: 09:00-18:00)");
+  const timePattern = /^\d{2}:\d{2}( *~ *\d{2}:\d{2})?$/;
+  if(!timePattern.test(time)){
+    alert("時間格式錯誤 (例: 09:00 或 09:00 ~ 18:00)");
     return false;
   }
 
