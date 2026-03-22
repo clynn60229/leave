@@ -26,6 +26,12 @@ body{
   max-width:420px;
   margin:auto;
 }
+  
+/* 外層包住（超重要） */
+.inputWrap{
+  width:100%;
+  overflow:hidden;   /* ⭐ 防爆核心 */
+}
 
 input, select{
   width:100%;
@@ -52,7 +58,9 @@ input, select{
 /* 修正 datetime 爆版 */
 input[type="datetime-local"]{
   width:100%;
+  max-width:100%;
   min-width:0;
+  display:block;
 }
 
 h2{
@@ -92,13 +100,16 @@ button{
 <!-- 開始時間 -->
 <div class="field">
   <label class="title">開始時間</label>
-  <input type="datetime-local" id="start">
+  <div class="inputWrap">
+    <input type="datetime-local" id="start">
+  </div>
 </div>
 
-<!-- 結束時間 -->
 <div class="field">
   <label class="title">結束時間</label>
-  <input type="datetime-local" id="end">
+  <div class="inputWrap">
+    <input type="datetime-local" id="end">
+  </div>
 </div>
 
 <!-- 請假時數 -->
@@ -109,6 +120,7 @@ button{
     type="number" 
     step="0.5" 
     min="0.5"
+    placeholder="以 0.5 小時為單位 例：1, 2.5, 4“
   >
 </div>
 
