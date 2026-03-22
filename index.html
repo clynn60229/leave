@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>請假申請</title>
+</head>
+
+<body>
+
+<h2>請假申請</h2>
+
+<input id="name" placeholder="姓名"><br><br>
+
+<select id="type">
+  <option value="">請選擇類型</option>
+  <option>事假</option>
+  <option>病假</option>
+  <option>年假</option>
+  <option>公假</option>
+  <option>婚假</option>
+  <option>喪假</option>
+</select>
+
+<input type="date" id="date"><br><br>
+
+<input type="time" id="time"><br><br>
+
+
+<br><br>
+
+<button onclick="submitForm()">送出</button>
+
+<script>
+function submitForm(){
+
+  var name = document.getElementById("name").value;
+  var date = document.getElementById("date").value;
+  var time = document.getElementById("time").value;
+  var type = document.getElementById("type").value;
+
+  if(!name || !date || !time || !type){
+    alert("請填寫完整資料");
+    return;
+  }
+
+  fetch("👉這裡貼你的Apps Script網址",{
+    method:"POST",
+    body:JSON.stringify({
+      name:name,
+      date:date,
+      time:time,
+      type:type
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert("送出成功");
+  })
+  .catch(err => {
+    alert("送出失敗");
+  });
+
+}
+</script>
+
+</body>
+</html>
