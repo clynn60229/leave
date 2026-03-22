@@ -89,7 +89,7 @@ button{
 
 <h2>請假申請</h2>
 
-<input id="name" placeholder="姓名">
+<input id="name" placeholder="姓名（全稱）">
 
 <select id="type">
   <option value="">請選擇類型</option>
@@ -226,7 +226,6 @@ function submitForm(){
   .then(res => res.json())
   .then(data => {
     alert("送出成功");
-    liff.closeWindow();
 
     // 清空欄位
     document.getElementById("name").value = "";
