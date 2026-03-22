@@ -137,7 +137,8 @@ button{
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
 <script>
-  
+
+let userId = ""
 let userName = ""  // 👉 存LINE名字
 
 window.onload = function(){
@@ -158,6 +159,7 @@ async function initLIFF(){
     const profile = await liff.getProfile()
 
     userName = profile.displayName
+    userId = profile.userId
 
     // 顯示在畫面上
     document.getElementById("userName").innerText = "姓名：" + userName
