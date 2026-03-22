@@ -137,11 +137,15 @@ button{
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
 <script>
+  
+let userName = ""  // 👉 存LINE名字
 
 window.onload = function(){
-  initLIFF()
+  if(typeof liff !== "undefined"){
+    initLIFF()
+  }
 }
-
+  
 async function initLIFF(){
   try{
     await liff.init({ liffId: "2009561233-W2o7PGug" })
