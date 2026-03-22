@@ -17,18 +17,14 @@ body{
   font-family:-apple-system, BlinkMacSystemFont;
 }
 
+*{
+  box-sizing:border-box;
+}
+
 .container{
   width:90%;
   max-width:420px;
-  background:#fff;
-  border-radius:20px;
-  padding:30px 25px;
-  box-shadow:0 8px 25px rgba(0,0,0,0.08);
-  text-align:center;
-}
-
-h2{
-  margin-bottom:25px;
+  margin:auto;
 }
 
 input, select{
@@ -38,7 +34,29 @@ input, select{
   font-size:16px;
   border-radius:12px;
   border:1px solid #ddd;
-  box-sizing:border-box;
+}
+
+/* 每一塊 */
+.field{
+  margin-bottom:15px;
+}
+
+/* 標題（粗體） */
+.title{
+  display:block;
+  font-weight:bold;
+  margin-bottom:8px;
+  font-size:16px;
+}
+
+/* 修正 datetime 爆版 */
+input[type="datetime-local"]{
+  width:100%;
+  min-width:0;
+}
+
+h2{
+  margin-bottom:25px;
 }
 
 button{
@@ -71,24 +89,32 @@ button{
   <option>病假</option>
 </select>
 
-<label>開始時間</label>
-<input type="datetime-local" id="start">
+<!-- 開始時間 -->
+<div class="field">
+  <label class="title">開始時間</label>
+  <input type="datetime-local" id="start">
+</div>
 
-<label>結束時間</label>
-<input type="datetime-local" id="end">
-  
-<input 
-  id="hours" 
-  type="number" 
-  step="0.5" 
-  min="0.5"
-  placeholder="請假時數 (例: 1.5, 2, 3.5)"
->
+<!-- 結束時間 -->
+<div class="field">
+  <label class="title">結束時間</label>
+  <input type="datetime-local" id="end">
+</div>
+
+<!-- 請假時數 -->
+<div class="field">
+  <label class="title">請假時數</label>
+  <input 
+    id="hours" 
+    type="number" 
+    step="0.5" 
+    min="0.5"
+  >
+</div>
 
 <button onclick="submitForm()">送出</button>
 
 </div>
-
 <script>
 
 // 驗證
