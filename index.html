@@ -226,6 +226,7 @@ function submitForm(){
   .then(res => res.json())
   .then(data => {
     alert("送出成功");
+    liff.windowClose()
 
     // 清空欄位
     document.getElementById("name").value = "";
