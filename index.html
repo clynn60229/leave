@@ -242,11 +242,12 @@ async function submitForm(){
     const res = await fetch("https://script.google.com/macros/s/AKfycby7h0fahcWcMyszSaVLCdjh9bLqk73wdoDGCcdcwPMhfxQ6TJt5zbfsOWwy9azqUGBNYQ/exec",{
       method:"POST",
       body:JSON.stringify({
-        name,
-        type,
-        start,
-        end,
-        hours
+      userId: userId,   // 👈 新增
+      name: userName,
+      type,
+      start,
+      end,
+      hours
       })
     })
 
