@@ -9,18 +9,18 @@ window.onload = function(){
 async function initLIFF(){
   await liff.init({ liffId: "2009561233-W2o7PGug" })
 
-  // 如果沒登入 → 直接登入
   if(!liff.isLoggedIn()){
     liff.login()
     return
   }
 
-  // 👉 自動帶入LINE名字（可刪）
   const profile = await liff.getProfile()
-  document.getElementById("name").value = profile.displayName
-}
 
-initLIFF()
+  const nameInput = document.getElementById("name")
+  if(nameInput){
+    nameInput.value = profile.displayName
+  }
+}
 
 // 驗證
 function validate(){
