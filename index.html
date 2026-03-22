@@ -1,3 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>請假申請</title>
+
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#f5f6fa;
+  font-family:-apple-system, BlinkMacSystemFont;
+}
+.container{
+  width:90%;
+  max-width:420px;
+}
+input, select{
+  width:100%;
+  padding:15px;
+  margin-bottom:15px;
+}
+button{
+  width:100%;
+  padding:15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>請假申請</h2>
+
+<input id="name" placeholder="姓名">
+
+<select id="type">
+  <option value="">請選擇類型</option>
+  <option>事假</option>
+  <option>病假</option>
+</select>
+
+<input type="date" id="startDate">
+<input type="time" id="startTime">
+
+<input type="date" id="endDate">
+<input type="time" id="endTime">
+
+<input id="hours" placeholder="時數">
+
+<button onclick="submitForm()">送出</button>
+
+</div>
+
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
 <script>
