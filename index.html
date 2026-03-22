@@ -140,8 +140,13 @@ function validate(){
 
   const name = document.getElementById("name").value.trim();
   const type = document.getElementById("type").value;
-  const start = document.getElementById("start").value;
-  const end = document.getElementById("end").value;
+
+  const startDate = document.getElementById("startDate").value;
+  const startTime = document.getElementById("startTime").value;
+
+  const endDate = document.getElementById("endDate").value;
+  const endTime = document.getElementById("endTime").value;
+
   const hours = parseFloat(document.getElementById("hours").value);
 
   if(!name){
@@ -154,18 +159,21 @@ function validate(){
     return false;
   }
 
-  if(!start){
-    alert("請選擇開始時間");
+  if(!startDate || !startTime){
+    alert("請選擇開始日期與時間");
     return false;
   }
 
-  if(!end){
-    alert("請選擇結束時間");
+  if(!endDate || !endTime){
+    alert("請選擇結束日期與時間");
     return false;
   }
 
-  // 🔥 結束不能早於開始
-  if(new Date(end) <= new Date(start)){
+  // 🔥 組合成時間（超重要）
+  const start = new Date(startDate + "T" + startTime);
+  const end = new Date(endDate + "T" + endTime);
+
+  if(end <= start){
     alert("結束時間必須晚於開始時間");
     return false;
   }
@@ -175,7 +183,7 @@ function validate(){
     return false;
   }
 
-  // 只能 0.5 單位
+  // 🔥 只能 0.5 單位
   if((hours * 2) % 1 !== 0){
     alert("請假時數只能以 0.5 為單位");
     return false;
