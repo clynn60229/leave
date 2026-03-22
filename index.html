@@ -2,35 +2,98 @@
 <html>
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>請假申請</title>
+
+<style>
+
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#f5f6fa;
+  font-family:-apple-system, BlinkMacSystemFont;
+}
+
+/* 主卡片 */
+.container{
+  width:90%;
+  max-width:420px;
+  background:#fff;
+  border-radius:20px;
+  padding:30px 25px;
+  box-shadow:0 8px 25px rgba(0,0,0,0.08);
+  text-align:center;
+}
+
+/* 標題 */
+h2{
+  margin-bottom:25px;
+  font-size:26px;
+}
+
+/* 輸入框 */
+input, select{
+  width:100%;
+  padding:15px;
+  margin-bottom:15px;
+  font-size:16px;
+  border-radius:12px;
+  border:1px solid #ddd;
+  box-sizing:border-box;
+}
+
+/* 按鈕 */
+button{
+  width:100%;
+  padding:15px;
+  font-size:18px;
+  border:none;
+  border-radius:12px;
+  background:#007AFF;
+  color:white;
+  margin-top:10px;
+}
+
+/* 按下效果 */
+button:active{
+  opacity:0.8;
+}
+
+</style>
 </head>
 
 <body>
 
+<div class="container">
+
 <h2>請假申請</h2>
 
-<input id="name" placeholder="姓名"><br><br>
+<input id="name" placeholder="姓名">
+
+<input type="date" id="date">
+
+<input type="time" id="time">
 
 <select id="type">
   <option value="">請選擇類型</option>
   <option>事假</option>
-  <option>病假</option>
-  <option>年假</option>
   <option>公假</option>
   <option>婚假</option>
   <option>喪假</option>
+  <option>年假</option>
+  <option>病假</option>
 </select>
-
-<input type="date" id="date"><br><br>
-
-<input type="time" id="time"><br><br>
-
-
-<br><br>
 
 <button onclick="submitForm()">送出</button>
 
+</div>
+
 <script>
+
 function submitForm(){
 
   var name = document.getElementById("name").value;
@@ -55,12 +118,19 @@ function submitForm(){
   .then(res => res.json())
   .then(data => {
     alert("送出成功");
+
+    // 清空欄位（手機很好用）
+    document.getElementById("name").value = "";
+    document.getElementById("date").value = "";
+    document.getElementById("time").value = "";
+    document.getElementById("type").value = "";
   })
   .catch(err => {
     alert("送出失敗");
   });
 
 }
+
 </script>
 
 </body>
