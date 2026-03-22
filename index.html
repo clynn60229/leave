@@ -71,8 +71,11 @@ button{
   <option>病假</option>
 </select>
 
-<input id="start" placeholder="開始 (例: 2026/03/22 09:00)">
-<input id="end" placeholder="結束 (例: 2026/03/22 18:00)">
+<label>開始時間</label>
+<input type="datetime-local" id="start">
+
+<label>結束時間</label>
+<input type="datetime-local" id="end">
   
 <input 
   id="hours" 
@@ -93,8 +96,8 @@ function validate(){
 
   const name = document.getElementById("name").value.trim();
   const type = document.getElementById("type").value;
-  const start = document.getElementById("start").value.trim();
-  const end = document.getElementById("end").value.trim();
+  const start = document.getElementById("start").value;
+  const end = document.getElementById("end").value;
   const hours = parseFloat(document.getElementById("hours").value);
 
   if(!name){
@@ -107,15 +110,19 @@ function validate(){
     return false;
   }
 
-  const pattern = /^\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}$/;
-
-  if(!pattern.test(start)){
-    alert("開始時間格式錯誤\n (例: 2026/03/22 09:00)");
+  if(!start){
+    alert("請選擇開始時間");
     return false;
   }
 
-  if(!pattern.test(end)){
-    alert("結束時間格式錯誤\n (例: 2026/03/22 18:00)");
+  if(!end){
+    alert("請選擇結束時間");
+    return false;
+  }
+
+  // 🔥 結束不能早於開始
+  if(new Date(end) <= new Date(start)){
+    alert("結束時間必須晚於開始時間");
     return false;
   }
 
@@ -124,20 +131,15 @@ function validate(){
     return false;
   }
 
-  // ⭐ 重點：只能 .0 或 .5
-  if(!isValidHalfHour(hours)){
-    alert("請假時數只能以 0.5 為單位\n(例: 0.5, 1, 1.5)");
+  // 只能 0.5 單位
+  if((hours * 2) % 1 !== 0){
+    alert("請假時數只能以 0.5 為單位");
     return false;
   }
 
   return true;
 }
-
-
-// 檢查 0.5 單位
-function isValidHalfHour(value){
-  return Number(value * 2) % 1 === 0;
-}
+  
 
 // 送出
 function submitForm(){
