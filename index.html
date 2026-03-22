@@ -166,7 +166,6 @@ async function initLIFF(){
 // 驗證
 function validate(){
 
-  const name = document.getElementById("name").value.trim();
   const type = document.getElementById("type").value;
 
   const startDate = document.getElementById("startDate").value;
@@ -176,11 +175,6 @@ function validate(){
   const endTime = document.getElementById("endTime").value;
 
   const hours = parseFloat(document.getElementById("hours").value);
-
-  if(!name){
-    alert("請輸入姓名");
-    return false;
-  }
 
   if(!type){
     alert("請選擇類型");
