@@ -157,11 +157,10 @@ async function initLIFF(){
 
     const profile = await liff.getProfile()
 
-    const nameInput = document.getElementById("name")
-    if(nameInput){
-      nameInput.value = profile.displayName
-    }
+    userName = profile.displayName
 
+    // 顯示在畫面上
+    document.getElementById("userName").innerText = "姓名：" + userName
   }catch(e){
     console.log("LIFF error:", e)
   }
