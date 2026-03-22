@@ -200,18 +200,27 @@ function submitForm(){
 
   const name = document.getElementById("name").value;
   const type = document.getElementById("type").value;
-  const date = document.getElementById("date").value;
-  const time = document.getElementById("time").value;
+
+  const startDate = document.getElementById("startDate").value;
+  const startTime = document.getElementById("startTime").value;
+
+  const endDate = document.getElementById("endDate").value;
+  const endTime = document.getElementById("endTime").value;
+
   const hours = document.getElementById("hours").value;
 
-  fetch("👉這裡貼你的Apps Script網址",{
+  // 👉 組合時間（建議送這樣）
+  const start = startDate + " " + startTime;
+  const end = endDate + " " + endTime;
+
+  fetch("https://script.google.com/macros/s/AKfycby7h0fahcWcMyszSaVLCdjh9bLqk73wdoDGCcdcwPMhfxQ6TJt5zbfsOWwy9azqUGBNYQ/exec",{
     method:"POST",
     body:JSON.stringify({
-      name:name,
-      type:type,
-      date:date,
-      time:time,
-      hours:hours
+      name: name,
+      type: type,
+      start: start,
+      end: end,
+      hours: hours
     })
   })
   .then(res => res.json())
@@ -221,8 +230,10 @@ function submitForm(){
     // 清空欄位
     document.getElementById("name").value = "";
     document.getElementById("type").value = "";
-    document.getElementById("date").value = "";
-    document.getElementById("time").value = "";
+    document.getElementById("startDate").value = "";
+    document.getElementById("startTime").value = "";
+    document.getElementById("endDate").value = "";
+    document.getElementById("endTime").value = "";
     document.getElementById("hours").value = "";
   })
   .catch(err => {
