@@ -71,9 +71,16 @@ button{
   <option>病假</option>
 </select>
 
-<input id="date" placeholder="請假日期 (例: 2026/03/22 ~ 2026/03/25)">
-<input id="time" placeholder="請假時間 (例: 09:00 ~ 18:00)">
-<input id="hours" inputmode="decimal" placeholder="請假時數 (例: 8)">
+<input id="start" placeholder="開始 (例: 2026/03/22 09:00)">
+<input id="end" placeholder="結束 (例: 2026/03/22 18:00)">
+  
+<input 
+  id="hours" 
+  type="number" 
+  step="0.5" 
+  min="0.5"
+  placeholder="請假時數 (例: 1.5, 2, 3.5)"
+>
 
 <button onclick="submitForm()">送出</button>
 
@@ -86,9 +93,9 @@ function validate(){
 
   const name = document.getElementById("name").value.trim();
   const type = document.getElementById("type").value;
-  const date = document.getElementById("date").value.trim();
-  const time = document.getElementById("time").value.trim();
-  const hours = document.getElementById("hours").value;
+  const start = document.getElementById("start").value.trim();
+  const end = document.getElementById("end").value.trim();
+  const hours = parseFloat(document.getElementById("hours").value);
 
   if(!name){
     alert("請輸入姓名");
@@ -100,15 +107,15 @@ function validate(){
     return false;
   }
 
-  const datePattern = /^\d{4}\/\d{2}\/\d{2}( *~ *\d{4}\/\d{2}\/\d{2})?$/;
-  if(!datePattern.test(date)){
-    alert("日期格式錯誤 (例: 2026/03/22 或 2026/03/22 ~ 2026/03/25)");
+  const pattern = /^\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}$/;
+
+  if(!pattern.test(start)){
+    alert("開始時間格式錯誤 (例: 2026/03/22 09:00)");
     return false;
   }
 
-  const timePattern = /^\d{2}:\d{2}( *~ *\d{2}:\d{2})?$/;
-  if(!timePattern.test(time)){
-    alert("時間格式錯誤 (例: 09:00 或 09:00 ~ 18:00)");
+  if(!pattern.test(end)){
+    alert("結束時間格式錯誤 (例: 2026/03/22 18:00)");
     return false;
   }
 
@@ -117,9 +124,20 @@ function validate(){
     return false;
   }
 
+  // ⭐ 重點：只能 .0 或 .5
+  if(!isValidHalfHour(hours)){
+    alert("請假時數只能以 0.5 為單位 (例: 0.5, 1, 1.5)");
+    return false;
+  }
+
   return true;
 }
 
+
+// 檢查 0.5 單位
+function isValidHalfHour(value){
+  return Number(value * 2) % 1 === 0;
+}
 
 // 送出
 function submitForm(){
