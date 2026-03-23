@@ -251,18 +251,30 @@ try{
   })
 
   const text = await res.text()
-
   console.log("回傳:", text)
 
-  alert("成功 or 看 console")
+  // 👉 判斷成功（你的 GAS 有回 success）
+  if(text.includes("success") || text === "ok"){
+
+    alert("送出成功")
+
+    // 👉 只在 LINE 裡才關閉
+    if(typeof liff !== "undefined" && liff.isInClient()){
+      liff.closeWindow()
+    }
+
+  }else{
+
+    alert("送出失敗\n" + text)
+
+  }
 
 }catch(err){
 
   console.log("錯誤:", err)
-  alert("fetch失敗")
+  alert("送出失敗")
 
 }
-
 }
 
 </script>
