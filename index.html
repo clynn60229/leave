@@ -252,13 +252,16 @@ try{
   })
 
   const text = await res.text()
+
   console.log("回傳:", text)
 
-  alert("送出成功")
+  alert("成功 or 看 console")
 
 }catch(err){
+
   console.log("錯誤:", err)
-  alert("送出失敗")
+  alert("fetch失敗")
+
 }
 
 }
