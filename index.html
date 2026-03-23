@@ -256,7 +256,7 @@ try{
   // 👉 判斷成功（你的 GAS 有回 success）
   if(text.includes("success") || text === "ok"){
 
-    alert("送出成功")
+    alert("✅送出成功")
 
     // 👉 只在 LINE 裡才關閉
     if(typeof liff !== "undefined" && liff.isInClient()){
@@ -265,7 +265,7 @@ try{
 
   }else{
 
-    alert("送出失敗\n" + text)
+    alert("❌送出失敗\n" + text)
 
   }
 
