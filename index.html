@@ -137,6 +137,7 @@ button{
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
 <script>
+let isSubmitting = false;
 
 let userId = ""
 let userName = ""  // 👉 存LINE名字
@@ -221,60 +222,82 @@ function validate(){
 // 送出
 async function submitForm(){
 
-  if(!validate()) return;
-  
-  const type = document.getElementById("type").value;
-
-  const startDate = document.getElementById("startDate").value;
-  const startTime = document.getElementById("startTime").value;
-
-  const endDate = document.getElementById("endDate").value;
-  const endTime = document.getElementById("endTime").value;
-
-  const hours = document.getElementById("hours").value;
-
-  const start = startDate + " " + startTime;
-  const end = endDate + " " + endTime;
-
-try{
-
-  const res = await fetch("https://script.google.com/macros/s/AKfycby7h0fahcWcMyszSaVLCdjh9bLqk73wdoDGCcdcwPMhfxQ6TJt5zbfsOWwy9azqUGBNYQ/exec",{
-    method:"POST",
-    body:JSON.stringify({
-      userId,
-      name: userName,
-      type,
-      start,
-      end,
-      hours
-    })
-  })
-
-  const text = await res.text()
-  console.log("回傳:", text)
-
-  // 👉 判斷成功（你的 GAS 有回 success）
-  if(text.includes("success") || text === "ok"){
-
-    alert("✅送出成功")
-
-    // 👉 只在 LINE 裡才關閉
-    if(typeof liff !== "undefined" && liff.isInClient()){
-      liff.closeWindow()
-    }
-
-  }else{
-
-    alert("❌送出失敗\n" + text)
-
+  // 🚫 防連點
+  if(isSubmitting){
+    alert("⏳ 資料送出中，請勿重複點擊")
+    return
   }
 
-}catch(err){
+  if(!validate()) return;
 
-  console.log("錯誤:", err)
-  alert("送出失敗")
+  isSubmitting = true   // 🔒 上鎖
 
-}
+  const btn = document.querySelector("button")  // 或指定 id 更好
+  const originalText = btn.innerText
+
+  try{
+
+    // 🔄 UI 狀態
+    btn.disabled = true
+    btn.innerText = "送出中..."
+
+    const type = document.getElementById("type").value;
+
+    const startDate = document.getElementById("startDate").value;
+    const startTime = document.getElementById("startTime").value;
+
+    const endDate = document.getElementById("endDate").value;
+    const endTime = document.getElementById("endTime").value;
+
+    const hours = document.getElementById("hours").value;
+
+    const start = startDate + " " + startTime;
+    const end = endDate + " " + endTime;
+
+    // =========================
+    // 🌐 送出（建議改成 URLSearchParams）
+    // =========================
+    const res = await fetch("https://script.google.com/macros/s/AKfycby7h0fahcWcMyszSaVLCdjh9bLqk73wdoDGCcdcwPMhfxQ6TJt5zbfsOWwy9azqUGBNYQ/exec",{
+      method:"POST",
+      body:new URLSearchParams({
+        userId,
+        name: userName,
+        type,
+        start,
+        end,
+        hours
+      })
+    })
+
+    const text = await res.text()
+    console.log("回傳:", text)
+
+    if(text.includes("success") || text === "ok"){
+
+      alert("✅送出成功")
+
+      if(typeof liff !== "undefined" && liff.isInClient()){
+        liff.closeWindow()
+      }
+
+    }else{
+      throw new Error(text)
+    }
+
+  }catch(err){
+
+    console.log("錯誤:", err)
+    alert("❌送出失敗\n" + err.message)
+
+  }finally{
+
+    // 🔓 解鎖
+    isSubmitting = false
+
+    // 🔄 按鈕恢復
+    btn.disabled = false
+    btn.innerText = originalText
+  }
 }
 
 </script>
