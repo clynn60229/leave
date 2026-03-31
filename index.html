@@ -32,9 +32,10 @@ body{
   gap:10px;
 }
 
-.row input{
-  flex:1;
-  min-width:0;
+.row input,
+.row select{
+  flex:1;          /* ⭐ 關鍵：平均分 */
+  min-width:0;     /* ⭐ 防止爆版 */
 }
 
 input, select{
@@ -109,17 +110,9 @@ button{
     <select id="startTime"></select>
   </div>
 
-<div class="row">
-  <input type="date" id="endDate">
-  <select id="endTime"></select>
-</div>
-</div>
-
-<div class="field">
-  <label class="title">結束時間</label>
   <div class="row">
     <input type="date" id="endDate">
-    <input type="time" id="endTime" step="900">
+    <select id="endTime"></select>
   </div>
 </div>
 
