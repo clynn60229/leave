@@ -274,21 +274,28 @@ async function submitForm(){
     const start = startDate + " " + startTime
     const end = endDate + " " + endTime
 
-    // ⭐ 改這裡：用 FormData
-    const formData = new FormData()
-    formData.append("userId", userId)
-    formData.append("name", userName)
-    formData.append("type", type)
-    formData.append("start", start)
-    formData.append("end", end)
+    let base64 = ""
+    let fileName = ""
+    let mimeType = ""
 
     if(file){
-      formData.append("file", file)  // ⭐ 真正的檔案
+      base64 = await toBase64(file)
+      fileName = file.name
+      mimeType = file.type
     }
-
+    
     const res = await fetch("https://script.google.com/macros/s/AKfycbwel905_by65VF_WWBo5yAIChZsYw-yEdPJT-8hS64fhN1HvC4Ogilp0HwIf-a4Q3qOhw/exec",{
       method:"POST",
-      body: formData
+      body:new URLSearchParams({
+        userId,
+        name: userName,
+        type,
+        start,
+        end,
+        file: base64,
+        fileName,
+        mimeType
+      })
     })
 
     const text = await res.text()
