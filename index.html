@@ -207,22 +207,6 @@ function validate(){
 
   const fileInput = document.getElementById("file")
   const file = fileInput.files.length > 0 ? fileInput.files[0] : null
-  
-  const formData = new FormData()
-  formData.append("userId", userId)
-  formData.append("name", userName)
-  formData.append("type", type)
-  formData.append("start", start)
-  formData.append("end", end)
-
-  if(file){
-    formData.append("file", file)  // ⭐ 真正的檔案
-  }
-
-const res = await fetch("你的GAS網址",{
-  method:"POST",
-  body: formData
-})
 
   if(!type){
     alert("請選擇類型");
@@ -247,14 +231,13 @@ const res = await fetch("你的GAS網址",{
     return false;
   }
 
-  // 👉 只有「非事假 / 年假」才要附件
+  // 👉 非事假 / 年假才需要附件
   if(type !== "事假" && type !== "年假"){
     if(!file){
       alert("請上傳請假證明")
       return false
     }
   }
-
 
   return true;
 }
@@ -263,7 +246,6 @@ const res = await fetch("你的GAS網址",{
 // 送出
 async function submitForm(){
 
-  // 🚫 防連點
   if(isSubmitting){
     alert("⏳ 資料送出中，請勿重複點擊")
     return
@@ -271,83 +253,62 @@ async function submitForm(){
 
   if(!validate()) return;
 
-  isSubmitting = true   // 🔒 上鎖
+  isSubmitting = true
 
-  const btn = document.querySelector("button")  // 或指定 id 更好
+  const btn = document.querySelector("button")
   const originalText = btn.innerText
 
   try{
-
-    // 🔄 UI 狀態
     btn.disabled = true
     btn.innerText = "送出中..."
 
-    const type = document.getElementById("type").value;
-
-    const startDate = document.getElementById("startDate").value;
-    const startTime = document.getElementById("startTime").value;
-
-    const endDate = document.getElementById("endDate").value;
-    const endTime = document.getElementById("endTime").value;
-
-    const start = startDate + " " + startTime;
-    const end = endDate + " " + endTime;
+    const type = document.getElementById("type").value
+    const startDate = document.getElementById("startDate").value
+    const startTime = document.getElementById("startTime").value
+    const endDate = document.getElementById("endDate").value
+    const endTime = document.getElementById("endTime").value
 
     const fileInput = document.getElementById("file")
     const file = fileInput.files.length > 0 ? fileInput.files[0] : null
-    
+
+    const start = startDate + " " + startTime
+    const end = endDate + " " + endTime
+
+    // ⭐ 改這裡：用 FormData
     const formData = new FormData()
     formData.append("userId", userId)
     formData.append("name", userName)
     formData.append("type", type)
     formData.append("start", start)
     formData.append("end", end)
-    
+
     if(file){
       formData.append("file", file)  // ⭐ 真正的檔案
     }
 
-    // =========================
-    // 🌐 送出（建議改成 URLSearchParams）
-    // =========================
     const res = await fetch("https://script.google.com/macros/s/AKfycbwel905_by65VF_WWBo5yAIChZsYw-yEdPJT-8hS64fhN1HvC4Ogilp0HwIf-a4Q3qOhw/exec",{
       method:"POST",
-      body:new URLSearchParams({
-        userId,
-        name: userName,
-        type,
-        start,
-        end,
-        file
-      })
+      body: formData
     })
 
     const text = await res.text()
     console.log("回傳:", text)
 
     if(text.includes("success") || text === "ok"){
-
       alert("✅送出成功")
 
       if(typeof liff !== "undefined" && liff.isInClient()){
         liff.closeWindow()
       }
-
     }else{
       throw new Error(text)
     }
 
   }catch(err){
-
     console.log("錯誤:", err)
     alert("❌送出失敗\n" + err.message)
-
   }finally{
-
-    // 🔓 解鎖
     isSubmitting = false
-
-    // 🔄 按鈕恢復
     btn.disabled = false
     btn.innerText = originalText
   }
