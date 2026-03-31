@@ -207,6 +207,22 @@ function validate(){
 
   const fileInput = document.getElementById("file")
   const file = fileInput.files.length > 0 ? fileInput.files[0] : null
+  
+  const formData = new FormData()
+  formData.append("userId", userId)
+  formData.append("name", userName)
+  formData.append("type", type)
+  formData.append("start", start)
+  formData.append("end", end)
+
+  if(file){
+    formData.append("file", file)  // ⭐ 真正的檔案
+  }
+
+const res = await fetch("你的GAS網址",{
+  method:"POST",
+  body: formData
+})
 
   if(!type){
     alert("請選擇類型");
@@ -276,6 +292,20 @@ async function submitForm(){
 
     const start = startDate + " " + startTime;
     const end = endDate + " " + endTime;
+
+    const fileInput = document.getElementById("file")
+    const file = fileInput.files.length > 0 ? fileInput.files[0] : null
+    
+    const formData = new FormData()
+    formData.append("userId", userId)
+    formData.append("name", userName)
+    formData.append("type", type)
+    formData.append("start", start)
+    formData.append("end", end)
+    
+    if(file){
+      formData.append("file", file)  // ⭐ 真正的檔案
+    }
 
     // =========================
     // 🌐 送出（建議改成 URLSearchParams）
