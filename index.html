@@ -205,7 +205,8 @@ function validate(){
   const endDate = document.getElementById("endDate").value;
   const endTime = document.getElementById("endTime").value;
 
-  const file = document.getElementById("file").files[0]
+  const fileInput = document.getElementById("file")
+  const file = fileInput.files.length > 0 ? fileInput.files[0] : null
 
   if(!type){
     alert("請選擇類型");
