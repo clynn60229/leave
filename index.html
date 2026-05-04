@@ -114,6 +114,7 @@ button{
   <option>喪假</option>
   <option>年假</option>
   <option>病假</option>
+  <option>生理假</option>
 </select>
 
 <!-- 開始時間 -->
@@ -131,7 +132,7 @@ button{
 </div>
 
 <div class="field">
-  <label class="title">請假證明(事/年假除外）</label>
+  <label class="title">請假證明(事/年/生理假除外）</label>
   <input type="file" id="file">
 </div>
 
@@ -246,7 +247,7 @@ function validate(){
   }
 
   // 👉 非事假 / 年假才需要附件
-  if(type !== "事假" && type !== "年假"){
+  if(type !== "事假" && type !== "年假" && type !== "生理假"){
     if(!file){
       alert("請上傳請假證明")
       return false
